@@ -32,13 +32,20 @@ http://www.arrl.org/files/file/QEX_Next_Issue/2014/Nov-Dec_2014/Hershberger_QEX_
 After installation, two GNU Radio blocks called "Magnitude Clipper"
 and "Peak Stretcher" will be available in the "CESSB" category. The
 "Magnitude Clipper" block clips the magnitude of IQ samples to the
-specified clipping level. It is the first stage of the CESSB algorithm.
+specified clipping level. The clipping level should be a value less than 0.5f.
+It is the first stage of the CESSB algorithm.
 The "Peak Stretcher" block does additional clipping. It is the second
 stage of the CESSB algorithm.
 
 There is one parameter for the Magnitude Clipper block.
 
 1) Clipping Level. The magnitude that IQ samples will be clipped to.
+It should be less than 0.5f and input should be rescaled to this value
+or less, to maintain linear gain between 0 and the clipping value.
+
+To normalize the output to values in the range (-1.0f, 1.0f) as expected
+by the DAC, multiply output with a constant such that:
+clip_level * multiplication = 1.0
 
 A GNU Radio Companion flow graph (ssb.grc) is provided in the apps
 directory. It transmits a test file (ssbaudioprocessed.wav) with a
